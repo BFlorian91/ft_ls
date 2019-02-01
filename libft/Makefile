@@ -6,7 +6,7 @@
 #    By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/15 14:08:19 by flbeaumo          #+#    #+#              #
-#    Updated: 2019/01/12 17:37:09 by flbeaumo         ###   ########.fr        #
+#    Updated: 2019/02/01 22:07:09 by flbeaumo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -36,6 +36,15 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
+NC = 	 \033[0m
+RED =	 \033[0;31m
+LRED = 	 \033[1;31m
+LBLUE =  \033[1;34m
+GREEN =  \033[0;32m
+LGREEN = \033[1;32m
+ORANGE = \033[0;33m
+YELLOW = \033[1;33m
+
 all: copy
 
 copy:
@@ -48,19 +57,16 @@ copy:
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $^
 	@ranlib $(NAME)
-	@echo "\\033[1;34m LIBFT\033[0m				\033[0;32m[SUCESS] \033[0m"
 
 %.o: %.c
 	@$(CC) -o $@ -c $< $(CFLAGS)
-	@echo "\033[0;33m Compiling:\033[0m			\033[0;32m [OK] \033[0m" $<
+	@echo "\033[1A $(YELLOW)Compiling:$(LBLUE) $< \033[K 	$(GREEN) [OK] $(NC)"
 
 clean:
 	@rm -rf $(OBJ) $(SRCS) $(INC)
-#	@echo "\033[1;31m Remove Object:\033[0m			\033[0;32m [OK] \033[0m"
 
 fclean: clean
 	@rm -rf $(NAME)
-#	@echo "\033[1;31m Remove Binary:\033[0m			\033[0;32m [OK] \033[0m"
 
 re: fclean all
 
