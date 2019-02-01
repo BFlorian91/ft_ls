@@ -6,7 +6,7 @@
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 19:38:37 by alcaroff          #+#    #+#             */
-/*   Updated: 2018/01/23 20:02:24 by alcaroff         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:51:02 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static void	parse_flags(char **fmt, t_spe *e)
 
 static void	parse_width(char **fmt, t_spe *e, va_list *ap)
 {
-	if (ft_isdigit(**fmt))
+	if (pf_isdigit(**fmt))
 	{
-		e->width = ft_atoi(*fmt);
-		while (ft_isdigit(**fmt))
+		e->width = pf_atoi(*fmt);
+		while (pf_isdigit(**fmt))
 			(*fmt)++;
 	}
 	else if (**fmt == '*')
@@ -55,10 +55,10 @@ static void	parse_precision(char **fmt, t_spe *e, va_list *ap)
 	{
 		(*fmt)++;
 		e->precision = 0;
-		if (ft_isdigit(**fmt))
+		if (pf_isdigit(**fmt))
 		{
-			e->precision = ft_atoi(*fmt);
-			while (ft_isdigit(**fmt))
+			e->precision = pf_atoi(*fmt);
+			while (pf_isdigit(**fmt))
 				(*fmt)++;
 		}
 		else if (**fmt == '*')
@@ -86,7 +86,7 @@ static int	parse_spe(char **fmt, t_spe *e)
 	e->spe = **fmt;
 	if (!is_specifier(**fmt))
 	{
-		ft_bzero((e->s = malloc(2)), 2);
+		pf_bzero((e->s = malloc(2)), 2);
 		e->s[0] = **fmt;
 	}
 	return (0);

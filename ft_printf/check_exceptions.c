@@ -6,7 +6,7 @@
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 15:24:51 by alcaroff          #+#    #+#             */
-/*   Updated: 2018/01/23 18:58:57 by alcaroff         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:50:28 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static void	flags_vs_str(t_spe *elem)
 		elem->plus = 0;
 		elem->space = 0;
 	}
-	if (!ft_strcmp("0", elem->s) && c != 'p' && c != 'o' && c != 'O')
+	if (!pf_strcmp("0", elem->s) && c != 'p' && c != 'o' && c != 'O')
 		elem->hash = 0;
-	if (!ft_strcmp("0", elem->s) && elem->precision == 0)
+	if (!pf_strcmp("0", elem->s) && elem->precision == 0)
 		elem->s[0] = 0;
-	if (!ft_strcmp("0", elem->s) && elem->precision != 0 &&
+	if (!pf_strcmp("0", elem->s) && elem->precision != 0 &&
 			(c == 'o' || c == 'O'))
 		elem->hash = 0;
 }

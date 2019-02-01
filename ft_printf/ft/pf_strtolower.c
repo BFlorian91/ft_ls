@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is.c                                               :+:      :+:    :+:   */
+/*   pf_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/24 14:44:37 by alcaroff          #+#    #+#             */
-/*   Updated: 2019/02/01 20:50:44 by alcaroff         ###   ########.fr       */
+/*   Created: 2017/12/06 18:11:33 by alcaroff          #+#    #+#             */
+/*   Updated: 2019/02/01 20:57:51 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-
-int		is_specifier(int c)
+char	*pf_strtolower(char *str)
 {
-	return (c == 'd' || c == 'D' || c == 'i' || c == 'u' || c == 'o' ||
-			c == 'X' || c == 'x' || c == 'O' || c == 'p' ||
-			c == 'c' || c == 's' || c == 'S' || c == 'C' ||
-			c == 'U');
-}
+	char *ret;
 
-int		is_flag(int c)
-{
-	return (c == ' ' || c == '-' || c == '+' || c == '#' || c == '0');
-}
-
-int		is_conv(int c)
-{
-	return (c == 'l' || c == 'z' || c == 'h' || c == 'j');
+	ret = str;
+	while (*str)
+	{
+		if (*str >= 'A' && *str <= 'Z')
+			*str += 32;
+		str++;
+	}
+	return (ret);
 }

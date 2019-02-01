@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is.c                                               :+:      :+:    :+:   */
+/*   parse_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/24 14:44:37 by alcaroff          #+#    #+#             */
-/*   Updated: 2019/02/01 20:50:44 by alcaroff         ###   ########.fr       */
+/*   Created: 2019/02/01 20:20:53 by alcaroff          #+#    #+#             */
+/*   Updated: 2019/02/01 21:14:51 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_ls.h"
 
-int		is_specifier(int c)
+int		parse_flags(int ac, char **av, t_datas *datas)
 {
-	return (c == 'd' || c == 'D' || c == 'i' || c == 'u' || c == 'o' ||
-			c == 'X' || c == 'x' || c == 'O' || c == 'p' ||
-			c == 'c' || c == 's' || c == 'S' || c == 'C' ||
-			c == 'U');
-}
+	int		i;
+	int		j;
+	int		k;
+	int		ret;
 
-int		is_flag(int c)
-{
-	return (c == ' ' || c == '-' || c == '+' || c == '#' || c == '0');
-}
-
-int		is_conv(int c)
-{
-	return (c == 'l' || c == 'z' || c == 'h' || c == 'j');
+	k = 0;
+	i = 1;
+	ret = 1;
+	while (i < ac)
+	{
+		j = 0;
+		if (av[i][j++] == '-')
+		{
+			ret++;
+			while (av[i][j] && k < 254)
+				datas->flags[k++] = av[i][j++];
+		}
+		i++;
+	}
+	datas->flags[k] = '\0';
+	return (ret);
 }

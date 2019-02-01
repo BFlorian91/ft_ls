@@ -6,7 +6,7 @@
 #    By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 15:15:20 by alcaroff          #+#    #+#              #
-#    Updated: 2019/02/01 10:40:04 by flbeaumo         ###   ########.fr        #
+#    Updated: 2019/02/01 20:52:27 by alcaroff         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,23 +22,23 @@ SRC			=	\
 	check_exceptions.c \
 	print_specifier.c \
 	is.c \
-	ft/ft_itoa_base.c \
-	ft/ft_itoa_base_un.c \
-	ft/ft_getwstr.c \
-	ft/ft_atoi.c \
-	ft/ft_bzero.c \
-	ft/ft_isalpha.c \
-	ft/ft_isdigit.c \
-	ft/ft_strcmp.c \
-	ft/ft_strcpy.c \
-	ft/ft_strdup.c \
-	ft/ft_strndup.c \
-	ft/ft_strlen.c \
-	ft/ft_strtolower.c \
-	ft/ft_getchar.c \
-	ft/ft_strisspace.c \
-	ft/ft_putstr.c \
-	ft/ft_putchar.c
+	ft/pf_itoa_base.c \
+	ft/pf_itoa_base_un.c \
+	ft/pf_getwstr.c \
+	ft/pf_atoi.c \
+	ft/pf_bzero.c \
+	ft/pf_isalpha.c \
+	ft/pf_isdigit.c \
+	ft/pf_strcmp.c \
+	ft/pf_strcpy.c \
+	ft/pf_strdup.c \
+	ft/pf_strndup.c \
+	ft/pf_strlen.c \
+	ft/pf_strtolower.c \
+	ft/pf_getchar.c \
+	ft/pf_strisspace.c \
+	ft/pf_putstr.c \
+	ft/pf_putchar.c
 OBJ			=	$(SRC:%.c=%.o)
 
 NC = 	 \033[0m

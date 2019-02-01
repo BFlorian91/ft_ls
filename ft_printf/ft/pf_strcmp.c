@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is.c                                               :+:      :+:    :+:   */
+/*   pf_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/24 14:44:37 by alcaroff          #+#    #+#             */
-/*   Updated: 2019/02/01 20:50:44 by alcaroff         ###   ########.fr       */
+/*   Created: 2017/11/07 22:31:14 by alcaroff          #+#    #+#             */
+/*   Updated: 2019/02/01 20:57:19 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-
-int		is_specifier(int c)
+int		pf_strcmp(const char *s1, const char *s2)
 {
-	return (c == 'd' || c == 'D' || c == 'i' || c == 'u' || c == 'o' ||
-			c == 'X' || c == 'x' || c == 'O' || c == 'p' ||
-			c == 'c' || c == 's' || c == 'S' || c == 'C' ||
-			c == 'U');
-}
-
-int		is_flag(int c)
-{
-	return (c == ' ' || c == '-' || c == '+' || c == '#' || c == '0');
-}
-
-int		is_conv(int c)
-{
-	return (c == 'l' || c == 'z' || c == 'h' || c == 'j');
+	if (!s1 || !s2)
+		return (-1);
+	while (*s1 == *s2 && *s2 && *s1)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

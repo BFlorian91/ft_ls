@@ -6,7 +6,7 @@
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/24 15:08:42 by alcaroff          #+#    #+#             */
-/*   Updated: 2018/01/24 16:50:50 by alcaroff         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:51:15 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	print_flags(t_spe *e, char **s, char *buf, int print)
 			(*s)++;
 	}
 	buf[i] = '\0';
-	return (print ? ft_putstr(buf) : i);
+	return (print ? pf_putstr(buf) : i);
 }
 
 static int	print_width(t_spe *e, int flags, char *s, char *buf)
@@ -51,7 +51,7 @@ static int	print_width(t_spe *e, int flags, char *s, char *buf)
 	i = 0;
 	c = ' ';
 	len = 0;
-	s_len = ft_strlen(s);
+	s_len = pf_strlen(s);
 	if (s && s[0] == '-' && (e->spe == 'd' || e->spe == 'D' || e->spe == 'i')
 			&& e->precision < s_len)
 		len++;
@@ -67,7 +67,7 @@ static int	print_width(t_spe *e, int flags, char *s, char *buf)
 			buf[i++] = c;
 	}
 	buf[i] = '\0';
-	return (ft_putstr(buf));
+	return (pf_putstr(buf));
 }
 
 static int	print_precision(t_spe *e, char *s, char *buf)
@@ -76,7 +76,7 @@ static int	print_precision(t_spe *e, char *s, char *buf)
 	int	len;
 
 	i = 0;
-	len = e->precision - ft_strlen(s);
+	len = e->precision - pf_strlen(s);
 	if ((e->spe == 'o' || e->spe == 'O') && e->hash == 1)
 		len--;
 	if (len > 0 && e->spe != 's' && e->spe != 'S')
@@ -85,7 +85,7 @@ static int	print_precision(t_spe *e, char *s, char *buf)
 			buf[i++] = '0';
 	}
 	buf[i] = '\0';
-	return (ft_putstr(buf));
+	return (pf_putstr(buf));
 }
 
 static int	print_s(t_spe *e, char *s)
@@ -94,13 +94,13 @@ static int	print_s(t_spe *e, char *s)
 	int	len;
 
 	i = 0;
-	len = ft_strlen(s);
+	len = pf_strlen(s);
 	if (e->precision > -1 && (e->spe == 's' || e->spe == 'S'))
 		len = e->precision;
 	if (s[i] == '\0' && (e->spe == 'c' || e->spe == 'C'))
-		ft_putchar(s[i++]);
+		pf_putchar(s[i++]);
 	while (i < len && s[i])
-		ft_putchar(s[i++]);
+		pf_putchar(s[i++]);
 	return (i);
 }
 
@@ -121,7 +121,7 @@ int			print_specifier(t_spe *e)
 		i += print_width(e, flags, s, buf);
 	if (e->precision > 0 && e->spe != 's' && e->spe != 'S')
 		i += print_precision(e, s, buf);
-	if (e->precision || ft_strcmp(s, "0") || e->spe == 'o' || e->spe == 'O')
+	if (e->precision || pf_strcmp(s, "0") || e->spe == 'o' || e->spe == 'O')
 		i += print_s(e, s);
 	if (e->width > 0 && e->minus)
 		i += print_width(e, flags, s, buf);

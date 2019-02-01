@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   pf_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 13:24:10 by alcaroff          #+#    #+#             */
-/*   Updated: 2018/01/23 19:54:45 by alcaroff         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:07:33 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int		print_str(char *fmt, t_spe *elem)
 			elem = elem->next;
 		}
 		else if (fmt[i] != '%')
-			ret += ft_putchar(fmt[i++]);
+			ret += pf_putchar(fmt[i++]);
 		else if (fmt[i++] == '%' && fmt[i] == '%')
-			ret += ft_putchar(fmt[i++]);
+			ret += pf_putchar(fmt[i++]);
 	}
 	return (ret);
 }

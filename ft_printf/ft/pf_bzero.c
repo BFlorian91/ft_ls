@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is.c                                               :+:      :+:    :+:   */
+/*   pf_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcaroff <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/24 14:44:37 by alcaroff          #+#    #+#             */
-/*   Updated: 2019/02/01 20:50:44 by alcaroff         ###   ########.fr       */
+/*   Created: 2017/11/10 21:22:44 by alcaroff          #+#    #+#             */
+/*   Updated: 2019/02/01 20:54:44 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		is_specifier(int c)
+void	pf_bzero(void *s, size_t n)
 {
-	return (c == 'd' || c == 'D' || c == 'i' || c == 'u' || c == 'o' ||
-			c == 'X' || c == 'x' || c == 'O' || c == 'p' ||
-			c == 'c' || c == 's' || c == 'S' || c == 'C' ||
-			c == 'U');
-}
+	char	*s_char;
+	size_t	i;
 
-int		is_flag(int c)
-{
-	return (c == ' ' || c == '-' || c == '+' || c == '#' || c == '0');
-}
-
-int		is_conv(int c)
-{
-	return (c == 'l' || c == 'z' || c == 'h' || c == 'j');
+	i = 0;
+	s_char = (char *)s;
+	while (i < n)
+	{
+		s_char[i] = '\0';
+		i++;
+	}
 }

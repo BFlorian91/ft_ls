@@ -6,13 +6,13 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 14:33:42 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/01 18:24:47 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:43:39 by alcaroff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int 	ft_ls_R(char *input)
+/*int 	ft_ls_R(char *input)
 {
 	DIR			*pDir;
 	t_dirent	*pDirent;
@@ -37,18 +37,29 @@ int 	ft_ls_R(char *input)
 	}
 	closedir(pDir);
 	return (0);
-}
+}*/
 
 int		main(int ac, char **av)
 {
-	if (ac == 1)
-		ft_ls_R(".");
-	else if (ac == 3)
+	t_datas datas;
+	int		ret;
+	ret = 1;
+	// 1. parse les fichers
+	// 2. parse les flags
+	// 3. afficher les fichers
+	ret = parse_flags(ac, av, &datas);
+	parse_files(ac, av, &datas, ret);
+	while (datas.dirs)
 	{
-		if ((ft_strcmp(av[1], "-R")) == 0)
-			ft_ls_R(av[2]);
-		else
-			ft_printf("Error: usage ls -R `input` or ls -R ");
+		ft_printf("dir -> %s\n", (char *)(datas.dirs->content));
+		datas.dirs = datas.dirs->next;
 	}
+	while (datas.files)
+	{
+		ft_printf("file -> %s\n", (char *)(datas.files->content));
+		datas.files = datas.files->next;
+	}
+	//show_result(&datas);
+
 	return (0);
 }

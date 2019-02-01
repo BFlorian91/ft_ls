@@ -6,20 +6,20 @@
 #    By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/09 16:42:03 by flbeaumo          #+#    #+#              #
-#    Updated: 2019/02/01 14:58:01 by flbeaumo         ###   ########.fr        #
+#    Updated: 2019/02/01 21:01:17 by alcaroff         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
 SRCS = $(addprefix $(SRCS_PATH)/, \
-	   main.c parsing.c checking.c )
+	   main.c parse_flags.c parse_files.c )
 
 OBJ = $(SRCS:.c=.o)
 
 SRCS_PATH = srcs
 
-HEADER_PATH = include
+HEADER_PATH = includes
 
 LIB_C_PATH = ./libft/
 
