@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/01 20:59:07 by alcaroff         ###   ########.fr       */
+/*   Updated: 2019/02/02 12:11:06 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ typedef struct	s_datas
 	char		flags[255];
 }				t_datas;
 
-int		parsing(int ac, char **av);
-int		check_opt(char *opt);
-int		check_type(t_dirent *pDirent, DIR *pDir, int ac, char **av);
+typedef	struct	s_meta
+{
+	// gestion du ls -l
+}				t_meta;
 
 int		parse_flags(int ac, char **av, t_datas *datas);
 int		parse_files(int ac, char **av, t_datas *datas, int i);
-
+void	display_basic(t_datas datas);
 
 
 

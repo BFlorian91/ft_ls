@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_flags.c                                      :+:      :+:    :+:   */
+/*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/02 10:53:13 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 10:53:24 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/02/02 12:21:57 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_ls.h"
 
-int		parse_flags(int ac, char **av, t_datas *datas)
+void	display_basic(t_datas datas)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		ret;
-
-	k = 0;
-	i = 1;
-	ret = 1;
-	while (i < ac)
+	while (datas.dirs)
 	{
-		j = 0;
-		if (av[i][j++] == '-')
-		{
-			ret++;
-			while (av[i][j] && k < 254)
-				datas->flags[k++] = av[i][j++];
-		}
-		i++;
+		ft_printf("dir -> %s\n", (char *)(datas.dirs->content));
+		datas.dirs = datas.dirs->next;
 	}
-	datas->flags[k] = '\0';
-	return (ret);
+	while (datas.files)
+	{
+		ft_printf("file -> %s\n", (char *)(datas.files->content));
+		datas.files = datas.files->next;
+	}
 }
+
+
