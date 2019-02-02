@@ -6,67 +6,147 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 16:41:49 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/02 23:40:43 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 /*
-void	display_basic(t_datas datas)
+static void		permissions(char *av)
 {
-	while (datas.dirs)
-	{
-		ft_printf("dir -> %s\n", (char *)(datas.dirs->content));
-		datas.dirs = datas.dirs->next;
-	}
-	while (datas.files)
-	{
-		ft_printf("file -> %s\n", (char *)(datas.files->content));
-		datas.files = datas.files->next;
-	}
+    struct stat fileStat;
+    if(stat(&av[1], &fileStat) < 0)    
+
+    printf("Information for %c\n",av[1]);
+    printf("---------------------------\n");
+    printf("File Size: \t\t%lld bytes\n",fileStat.st_size);
+    printf("Number of Links: \t%d\n",fileStat.st_nlink);
+    printf("File inode: \t\t%llu\n",fileStat.st_ino);
+
+    printf("File Permissions: \t");
+    printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
+    printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
+    printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
+    printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
+    printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
+    printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
+    printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
+    printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
+    printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
+    printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
+    printf("\n\n");
+
+    printf("The file %s a symbolic link\n", (S_ISLNK(fileStat.st_mode)) ? "is" : "is not");
 }
 */
 
-
-static void	recursif(t_datas *datas)
+void			*fck_malloc(int size)
 {
-	t_dirent	*name;
-	char 		**str;
-	int			i;
-	int 		j;
+	void	*ret;
 
-	i = 0;
-	j = 0;
-	if ((str = (char **)malloc(sizeof(t_datas))) == NULL)
-		return ;
-	while (datas->dirs)
-	{
-		str[i][j] = (char *)datas->dirs->content;
-		i++;
-		datas->dirs->content = datas->dirs->next;
-	}
-	i = 0;
-	if ((datas->directory = opendir(str[i])) == NULL)
-	{
-		perror("ls: ");
-		exit(0);
-	}
-	while ((name = readdir(datas->directory)))
-	{
-		if (ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
-		{
-			ft_printf("%s\n", name->d_name);
-			//recursif(name->d_name);
-		}
-	}
-
+	if (!(ret = malloc(size)))
+		exit(1);
+	return ret;
 }
 
-void		display_basic(int ac, char **av, t_datas *datas) 
+void			*fck_lstnew(void *content, int size)
 {
-	if (parse_flags(ac, av, datas))
+	void	*ret;
+
+	return ret;
+}
+
+char			*concat(char *s1, char *s2)
+{
+	char	*ret;
+
+	ret = ft_strjoin(s1, "/");
+	free(ret);
+	return (ft_strjoin(ret, s2));
+}
+
+static t_dir	*add_dir(char *str, t_datas *datas)
+{
+	t_list		*new;
+	t_dir		*dir;
+
+	dir = fck_malloc(sizeof(t_dir));
+	new = fck_lstnew(dir, sizeof(dir));
+	dir->name = str;
+	dir->files = NULL;
+	stat(str, &dir->file_stat);
+	printf("x\n");
+	ft_printf("%s\n", ((t_dir *)new->content)->name);
+	printf("s\n");
+	ft_lstaddlast(&datas->dirs, new);
+
+	return (dir);
+}
+
+static t_list	*add_file(char *str, t_dir *dir, t_datas *datas)
+{
+	t_list		*new;
+	t_file		*file;
+
+	file = fck_malloc(sizeof(t_file));
+	new = fck_lstnew(file, sizeof(file));
+	file->name = str;
+	if (dir)
 	{
-	//	recursif(datas);	
+		stat(concat(dir->name, str), &(dir->file_stat));
+		ft_lstaddlast(&dir->files, new);
+	}
+	else
+	{
+		stat(str, &dir->file_stat);
+		ft_lstaddlast(&datas->files, new);
+	}
+	return (new);
+}
+
+static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
+{
+	t_dirent	*name;
+	DIR			*directory;
+	t_dir		*dir;
+	struct stat	file_stat;
+
+	directory = NULL;
+	dir = NULL;
+	name = NULL;
+
+	stat(dir_name, &file_stat);
+	if (!S_ISREG(file_stat.st_mode))
+	{
+		if ((directory = opendir(dir_name)) == NULL)
+		{
+			perror("ls: ");
+			exit(0);
+		}
+		dir = add_dir(dir_name, datas);
+		while ((name = readdir(directory)))
+		{
+			if (ft_strstr(flags, "R") && ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
+			{
+			if (name->d_type == 4)
+				parse_dir(concat(dir_name, name->d_name), flags, datas);
+			}
+			add_file(name->d_name, dir, datas);
+		}
+		closedir(directory);
+	}
+	else
+	{
+		add_file(dir_name, NULL, datas);
+	}
+}
+
+void			parse_files(int ac, char **av, t_datas *datas, int i) 
+{
+	while (i < ac)
+	{
+		parse_dir(av[i], datas->flags, datas);
+		i++;
 	}
 }
 

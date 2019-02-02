@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorted.c                                           :+:      :+:    :+:   */
+/*   ft_lstaddlast.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/02 15:20:15 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 15:57:03 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/02/02 21:40:28 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/02/02 21:41:50 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		main(int ac, char **av)
+void	ft_lstaddlast(t_list **start, t_list *new)
 {
-	t_list	*dirs;
-	int 	size_lst;
+	t_list *last;
 
-	size_lst = 1;
-	while (size_lst < ac)
-	{
-		
-	}
-
-
+	last = *start;
+	while (last && last->next)
+		last = last->next;
+	if (last)
+		last->next = new;
+	else
+		*start = new;
 }

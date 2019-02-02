@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 15:12:06 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/01/12 17:47:50 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/02 21:42:50 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ int				ft_strclen(char *s, char c);
 char			*ft_strndup(const char *s1, size_t n);
 size_t			ft_lstlen(t_list *lst);
 int				ft_sqrt(int nb);
+void			ft_lstaddlast(t_list **start, t_list *new);
 
 #endif

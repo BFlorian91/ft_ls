@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 14:33:42 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 13:25:50 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:57:37 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,42 @@ int		main(int ac, char **av)
 	// 1. parse les fichers
 	// 2. parse les flags
 	// 3. afficher les fichers
+	datas.dirs = NULL;
+	datas.files = NULL;
 	ret = parse_flags(ac, av, &datas);
 	parse_files(ac, av, &datas, ret);
-	display_basic(ac, av, &datas);
+	t_list *dirs;
+	t_list *files = datas.files;
+	t_dir *dir;
+	t_file *file;
+	dirs = datas.dirs;
+	while(files)
+	{
+		file = files->content;
+		ft_printf("%s", file->name);
+		if (files->next == NULL)
+			ft_printf("\n\n");
+		else
+			ft_printf("\t");
+		files = files->next;
+	}
+	while(dirs)
+	{
+		dir = dirs->content;
+		ft_printf(BLU"%s\n"NRM, dir->name);
+		while (dir->files)
+		{
+			file = dir->files->content;
+			ft_printf("%s", file->name);
+			if (dir->files->next == NULL)
+				ft_printf("\n\n");
+			else
+				ft_printf("\t");
+			dir->files = dir->files->next;
+		}
+		
+		dirs = dirs->next;
+	}
 	//show_result(&datas);
 	return (0);
 }
