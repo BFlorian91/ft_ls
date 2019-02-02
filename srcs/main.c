@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 14:33:42 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 12:15:03 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/02 13:25:50 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		main(int ac, char **av)
 	// 3. afficher les fichers
 	ret = parse_flags(ac, av, &datas);
 	parse_files(ac, av, &datas, ret);
-	display_basic(datas);
+	display_basic(ac, av, &datas);
 	//show_result(&datas);
 	return (0);
 }
