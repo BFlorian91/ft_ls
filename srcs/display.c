@@ -15,7 +15,7 @@
 static void		permissions(char *av)
 {
     struct stat fileStat;
-    if(stat(&av[1], &fileStat) < 0)    
+    if(stat(&av[1], &fileStat) < 0)
 
     printf("Information for %c\n",av[1]);
     printf("---------------------------\n");
@@ -49,11 +49,14 @@ void			*fck_malloc(int size)
 	return ret;
 }
 
-void			*fck_lstnew(void *content, int size)
+t_list			*fck_lstnew(void *content, int size)
 {
-	void	*ret;
-
-	return ret;
+	t_list *new;
+	if (!(new = malloc(sizeof(t_list))))
+		exit(1);
+	new->content = content;
+	new->content_size = size;
+	return new;
 }
 
 char			*concat(char *s1, char *s2)
@@ -75,9 +78,7 @@ static t_dir	*add_dir(char *str, t_datas *datas)
 	dir->name = str;
 	dir->files = NULL;
 	stat(str, &dir->file_stat);
-	printf("x\n");
 	ft_printf("%s\n", ((t_dir *)new->content)->name);
-	printf("s\n");
 	ft_lstaddlast(&datas->dirs, new);
 
 	return (dir);
@@ -141,7 +142,7 @@ static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
 	}
 }
 
-void			parse_files(int ac, char **av, t_datas *datas, int i) 
+void			parse_files(int ac, char **av, t_datas *datas, int i)
 {
 	while (i < ac)
 	{
@@ -149,4 +150,3 @@ void			parse_files(int ac, char **av, t_datas *datas, int i)
 		i++;
 	}
 }
-
