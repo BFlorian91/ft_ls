@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 23:40:43 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 12:34:45 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,19 @@ t_list			*fck_lstnew(void *content, int size)
 		exit(1);
 	new->content = content;
 	new->content_size = size;
+	new->next = NULL;
 	return new;
 }
 
 char			*concat(char *s1, char *s2)
 {
 	char	*ret;
+	char	*tmp;
 
-	ret = ft_strjoin(s1, "/");
-	free(ret);
-	return (ft_strjoin(ret, s2));
+	tmp = ft_strjoin(s1, "/");
+	ret = ft_strjoin(tmp, s2);
+	free(tmp);
+	return (ret);
 }
 
 static t_dir	*add_dir(char *str, t_datas *datas)
@@ -91,15 +94,15 @@ static t_list	*add_file(char *str, t_dir *dir, t_datas *datas)
 
 	file = fck_malloc(sizeof(t_file));
 	new = fck_lstnew(file, sizeof(file));
-	file->name = str;
+	file->name = ft_strdup(str);
 	if (dir)
 	{
-		stat(concat(dir->name, str), &(dir->file_stat));
+		stat(concat(dir->name, str), &(file->file_stat));
 		ft_lstaddlast(&dir->files, new);
 	}
 	else
 	{
-		stat(str, &dir->file_stat);
+		stat(str, &file->file_stat);
 		ft_lstaddlast(&datas->files, new);
 	}
 	return (new);
@@ -110,43 +113,44 @@ static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
 	t_dirent	*name;
 	DIR			*directory;
 	t_dir		*dir;
-	struct stat	file_stat;
 
 	directory = NULL;
 	dir = NULL;
 	name = NULL;
 
-	stat(dir_name, &file_stat);
-	if (!S_ISREG(file_stat.st_mode))
+	if ((directory = opendir(dir_name)) == NULL)
 	{
-		if ((directory = opendir(dir_name)) == NULL)
-		{
-			perror("ls: ");
-			exit(0);
-		}
-		dir = add_dir(dir_name, datas);
-		while ((name = readdir(directory)))
-		{
-			if (ft_strstr(flags, "R") && ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
-			{
-			if (name->d_type == 4)
-				parse_dir(concat(dir_name, name->d_name), flags, datas);
-			}
-			add_file(name->d_name, dir, datas);
-		}
-		closedir(directory);
+		perror("ls: ");
+		exit(0);
 	}
-	else
+	dir = add_dir(dir_name, datas);
+	while ((name = readdir(directory)))
 	{
-		add_file(dir_name, NULL, datas);
+		if (ft_strstr(flags, "R") && ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
+		{
+		if (name->d_type == 4)
+			parse_dir(concat(dir_name, name->d_name), flags, datas);
+		}
+		add_file(name->d_name, dir, datas);
 	}
+	closedir(directory);
 }
 
 void			parse_files(int ac, char **av, t_datas *datas, int i)
 {
+	struct stat	file_stat;
 	while (i < ac)
 	{
-		parse_dir(av[i], datas->flags, datas);
+		if (stat(av[i], &file_stat) < 0)
+			perror("ls: ");
+		else if (S_ISDIR(file_stat.st_mode))
+		{
+			parse_dir(av[i], datas->flags, datas);
+		}
+		else
+		{
+			add_file(av[i], NULL, datas);
+		}
 		i++;
 	}
 }

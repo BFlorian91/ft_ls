@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 21:40:28 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 21:41:50 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 11:26:27 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_lstaddlast(t_list **start, t_list *new)
 	t_list *last;
 
 	last = *start;
-	while (last && last->next)
+	while (last->next)
 		last = last->next;
 	if (last)
 		last->next = new;
