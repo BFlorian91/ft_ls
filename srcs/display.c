@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 14:15:31 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 15:43:38 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void			*fck_malloc(int size)
 
 	if (!(ret = malloc(size)))
 		exit(1);
-	return ret;
+	return (ret);
 }
 
 t_list			*fck_lstnew(void *content, int size)
@@ -57,7 +57,7 @@ t_list			*fck_lstnew(void *content, int size)
 	new->content = content;
 	new->content_size = size;
 	new->next = NULL;
-	return new;
+	return (new);
 }
 
 char			*concat(char *s1, char *s2)
@@ -82,7 +82,6 @@ static t_dir	*add_dir(char *str, t_datas *datas)
 	dir->files = NULL;
 	stat(str, &dir->file_stat);
 	ft_lstaddlast(&datas->dirs, new);
-
 	return (dir);
 }
 
