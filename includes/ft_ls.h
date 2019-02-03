@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 14:06:37 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 17:07:19 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,9 @@ typedef struct	s_file {
 	struct stat	file_stat;	
 }				t_file;
 
-typedef	struct	s_meta
-{
-	// gestion du ls -l
-}				t_meta;
-
 int		parse_flags(int ac, char **av, t_datas *datas);
 void	parse_files(int ac, char **av, t_datas *datas, int i);
+int		main_display(int ac, char **av);
 
 #endif
 

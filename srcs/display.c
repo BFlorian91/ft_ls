@@ -5,151 +5,70 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 16:09:34 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/02/03 16:55:04 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/02/03 17:08:14 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-/*
-static void		permissions(char *av)
+
+static int	display_files(t_datas datas)
 {
-    struct stat fileStat;
-    if(stat(&av[1], &fileStat) < 0)
+	t_list *files;
+	t_file *file;
 
-    printf("Information for %c\n",av[1]);
-    printf("---------------------------\n");
-    printf("File Size: \t\t%lld bytes\n",fileStat.st_size);
-    printf("Number of Links: \t%d\n",fileStat.st_nlink);
-    printf("File inode: \t\t%llu\n",fileStat.st_ino);
-
-    printf("File Permissions: \t");
-    printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-    printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
-    printf("\n\n");
-
-    printf("The file %s a symbolic link\n", (S_ISLNK(fileStat.st_mode)) ? "is" : "is not");
-}
-*/
-
-void			*fck_malloc(int size)
-{
-	void	*ret;
-
-	if (!(ret = malloc(size)))
-		exit(1);
-	return (ret);
-}
-
-t_list			*fck_lstnew(void *content, int size)
-{
-	t_list *new;
-	if (!(new = malloc(sizeof(t_list))))
-		exit(1);
-	new->content = content;
-	new->content_size = size;
-	new->next = NULL;
-	return (new);
-}
-
-char			*concat(char *s1, char *s2)
-{
-	char	*ret;
-	char	*tmp;
-
-	tmp = ft_strjoin(s1, "/");
-	ret = ft_strjoin(tmp, s2);
-	free(tmp);
-	return (ret);
-}
-
-static t_dir	*add_dir(char *str, t_datas *datas)
-{
-	t_list		*new;
-	t_dir		*dir;
-
-	dir = fck_malloc(sizeof(t_dir));
-	new = fck_lstnew(dir, sizeof(dir));
-	dir->name = str;
-	dir->files = NULL;
-	stat(str, &dir->file_stat);
-	ft_lstaddlast(&datas->dirs, new);
-	return (dir);
-}
-
-static t_list	*add_file(char *str, t_dir *dir, t_datas *datas)
-{
-	t_list		*new;
-	t_file		*file;
-
-	file = fck_malloc(sizeof(t_file));
-	new = fck_lstnew(file, sizeof(file));
-	file->name = ft_strdup(str);
-	if (dir)
+ 	files = datas.files;
+	while(files)
 	{
-		stat(concat(dir->name, str), &(file->file_stat));
-		ft_lstaddlast(&dir->files, new);
-	}
-	else
-	{
-		stat(str, &file->file_stat);
-		ft_lstaddlast(&datas->files, new);
-	}
-	return (new);
-}
-
-static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
-{
-	t_dirent	*name;
-	DIR			*directory;
-	t_dir		*dir;
-
-	directory = NULL;
-	dir = NULL;
-	name = NULL;
-
-	directory = opendir(dir_name);
-	dir = add_dir(dir_name, datas);
-	while ((name = readdir(directory)))
-	{
-		if (ft_strstr(flags, "R") && ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
-		{
-			if (name->d_type == 4)
-				parse_dir(concat(dir_name, name->d_name), flags, datas);
-		}
-		add_file(name->d_name, dir, datas);
-	}
-	closedir(directory);
-}
-
-void			parse_files(int ac, char **av, t_datas *datas, int i)
-{
-	struct stat	file_stat;
-	char		str[255];
-	while (i < ac)
-	{
-		if (stat(av[i], &file_stat) < 0)
-		{
-			ft_strcpy(str, "ls: ");
-			ft_strcat(str, av[i]);
-			perror(str);
-		}
-		else if (S_ISDIR(file_stat.st_mode))
-		{
-			parse_dir(av[i], datas->flags, datas);
-		}
+		file = files->content;
+		ft_printf("%s", file->name);
+		if (files->next == NULL)
+			printf("\n\n");
 		else
-		{
-			add_file(av[i], NULL, datas);
-		}
-		i++;
+			ft_printf("\t");
+		files = files->next;
 	}
+	return (0);
+}
+
+static int	display_folder(t_datas datas, int ac)
+{
+	t_list *dirs;
+	t_dir *dir;
+	t_file *file;
+
+	dirs = datas.dirs;
+	while(dirs)
+	{
+		dir = dirs->content;
+		if (ac > 2)
+			ft_printf(BLU"%s:\n"NRM, dir->name);
+		while (dir->files)
+		{
+			file = dir->files->content;
+			ft_printf("%s", file->name);
+			if (dir->files->next == NULL)
+				ft_printf("\n\n");
+			else
+				ft_printf("\t");
+			dir->files = dir->files->next;
+		}
+		
+		dirs = dirs->next;
+	}
+	return (0);
+}
+
+int			main_display(int ac, char **av)
+{
+	t_datas datas;
+	int		ret;
+
+	ret = 1;
+	datas.files = NULL;
+	ret = parse_flags(ac, av, &datas);
+	parse_files(ac, av, &datas, ret);
+	display_files(datas);
+	display_folder(datas, ac);
+	return (0);
 }
