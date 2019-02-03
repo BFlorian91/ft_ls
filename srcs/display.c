@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 12:34:45 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 14:15:31 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static t_dir	*add_dir(char *str, t_datas *datas)
 	dir->name = str;
 	dir->files = NULL;
 	stat(str, &dir->file_stat);
-	ft_printf("%s\n", ((t_dir *)new->content)->name);
 	ft_lstaddlast(&datas->dirs, new);
 
 	return (dir);
@@ -128,8 +127,8 @@ static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
 	{
 		if (ft_strstr(flags, "R") && ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
 		{
-		if (name->d_type == 4)
-			parse_dir(concat(dir_name, name->d_name), flags, datas);
+			if (name->d_type == 4)
+				parse_dir(concat(dir_name, name->d_name), flags, datas);
 		}
 		add_file(name->d_name, dir, datas);
 	}

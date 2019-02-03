@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/02 22:53:19 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 14:06:37 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct	s_datas
 {
 	t_list		*dirs;
 	t_list		*files;
-	DIR			*directory;
 	char		flags[255];
 }				t_datas;
 
@@ -59,6 +58,36 @@ typedef	struct	s_meta
 int		parse_flags(int ac, char **av, t_datas *datas);
 void	parse_files(int ac, char **av, t_datas *datas, int i);
 
-
-
 #endif
+
+/*
+datas
+{
+	dirs (lst)
+	{
+		1
+		2
+		3->content	(t_dir)
+					name (srcs/)
+					stat ..
+					files (lst)
+						1
+						2
+						3
+						4->content (t_file)
+									name
+									stat
+	}
+
+	files (lst)
+	{
+		1
+		2
+		3->content (t_file)
+					name
+					stat
+	}
+
+	flags (str)
+}
+*/
