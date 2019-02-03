@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 14:33:42 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 12:03:53 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 14:34:39 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int		main(int ac, char **av)
 	while(dirs)
 	{
 		dir = dirs->content;
-		ft_printf(BLU"%s\n"NRM, dir->name);
+		if (ac > 2)
+			ft_printf(BLU"%s\n"NRM, dir->name);
 		while (dir->files)
 		{
 			file = dir->files->content;

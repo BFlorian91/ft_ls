@@ -6,7 +6,7 @@
 #    By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/09 16:42:03 by flbeaumo          #+#    #+#              #
-#    Updated: 2019/02/02 23:20:36 by flbeaumo         ###   ########.fr        #
+#    Updated: 2019/02/03 14:42:58 by flbeaumo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ YELLOW = \033[1;33m
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) -g $(SRCS) $(LIBFT) $(PRINTF) -o $@ $(CFLAGS) -I $(HEADER_PATH)
+	@$(CC) $(SRCS) $(LIBFT) $(PRINTF) -o $@ $(CFLAGS) -I $(HEADER_PATH)
 	@clear
 	@echo "\033[2A $(GREEN) [ Compile status ]		 [OK] $(NC)"
 
