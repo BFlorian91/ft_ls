@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.c                                          :+:      :+:    :+:   */
+/*   parse_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 16:09:34 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 19:27:31 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void			parse_files(int ac, char **av, t_datas *datas, int i)
 {
 	struct stat	file_stat;
 	char		str[255];
+	if (ac == 1 || (ac == 2 && ft_strstr(datas->flags, "R")))
+		parse_dir(".", datas->flags, datas);
 	while (i < ac)
 	{
 		if (stat(av[i], &file_stat) < 0)

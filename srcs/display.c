@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/03 16:55:04 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 17:08:14 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 19:29:04 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static int	display_files(t_datas datas)
 {
-	t_list *files;
-	t_file *file;
+	t_list	*files;
+	t_file	*file;
 
- 	files = datas.files;
-	while(files)
+	files = datas.files;
+	while (files)
 	{
 		file = files->content;
 		ft_printf("%s", file->name);
@@ -33,15 +33,15 @@ static int	display_files(t_datas datas)
 
 static int	display_folder(t_datas datas, int ac)
 {
-	t_list *dirs;
-	t_dir *dir;
-	t_file *file;
+	t_list	*dirs;
+	t_dir	*dir;
+	t_file	*file;
 
 	dirs = datas.dirs;
-	while(dirs)
+	while (dirs)
 	{
 		dir = dirs->content;
-		if (ac > 2)
+		if (ac >= 2)
 			ft_printf(BLU"%s:\n"NRM, dir->name);
 		while (dir->files)
 		{
@@ -53,7 +53,6 @@ static int	display_folder(t_datas datas, int ac)
 				ft_printf("\t");
 			dir->files = dir->files->next;
 		}
-		
 		dirs = dirs->next;
 	}
 	return (0);

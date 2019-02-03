@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 17:07:19 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 19:08:30 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # define MAG  "\x1B[35m"
 # define CYN  "\x1B[36m"
 # define WHT  "\x1B[37m"
+
+
+/** DEBUG **/
+# define DEBUG(x) printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN" %d\n"NRM, x);
+
+/***********/
 
 # include <dirent.h>
 # include <sys/types.h>
