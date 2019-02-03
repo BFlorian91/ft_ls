@@ -6,11 +6,19 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/03 16:55:04 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 22:00:46 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:05:15 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+int	hide_point(char *str, t_datas datas)
+{
+	if (!(ft_strstr(datas.flags, "a")))
+		if (!ft_strncmp(str, ".", 1))
+			return (1);
+	return (0);
+}
 
 static int	display_files(t_datas datas)
 {
@@ -21,11 +29,14 @@ static int	display_files(t_datas datas)
 	while (files)
 	{
 		file = files->content;
-		ft_printf("%s", file->name);
-		if (files->next == NULL)
-			ft_printf("\n");
-		else
-			ft_printf(" ");
+		if (!(hide_point(file->name, datas)))
+		{
+			ft_printf("%s", file->name);
+			if (files->next == NULL)
+				ft_printf("\n");
+			else
+				ft_printf(" ");
+		}
 		files = files->next;
 	}
 	return (0);
@@ -48,12 +59,15 @@ static int	display_folder(t_datas datas, int ac)
 			ft_printf(BLU"%s:\n"NRM, dir->name);
 		while (dir->files)
 		{
-			file = dir->files->content;
-			ft_printf("%-15s", file->name);
-			if (dir->files->next == NULL)
-				ft_printf("\n\n");
-			else
-				ft_printf("\t");
+			file = dir->files->content;	
+			if (!(hide_point(file->name, datas)))
+			{
+				ft_printf("%-15s", file->name);
+				if (dir->files->next == NULL)
+					ft_printf("\n\n");
+				else
+					ft_printf("\t");
+			}
 			dir->files = dir->files->next;
 		}
 		dirs = dirs->next;
