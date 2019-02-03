@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 15:43:38 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:09:34 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,7 @@ static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
 	dir = NULL;
 	name = NULL;
 
-	if ((directory = opendir(dir_name)) == NULL)
-	{
-		perror("ls: ");
-		exit(0);
-	}
+	directory = opendir(dir_name);
 	dir = add_dir(dir_name, datas);
 	while ((name = readdir(directory)))
 	{
@@ -137,10 +133,15 @@ static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
 void			parse_files(int ac, char **av, t_datas *datas, int i)
 {
 	struct stat	file_stat;
+	char		str[255];
 	while (i < ac)
 	{
 		if (stat(av[i], &file_stat) < 0)
-			perror("ls: ");
+		{
+			ft_strcpy(str, "ls: ");
+			ft_strcat(str, av[i]);
+			perror(str);
+		}
 		else if (S_ISDIR(file_stat.st_mode))
 		{
 			parse_dir(av[i], datas->flags, datas);
