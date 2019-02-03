@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/03 16:55:04 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 19:29:04 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 22:00:46 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	display_files(t_datas datas)
 		file = files->content;
 		ft_printf("%s", file->name);
 		if (files->next == NULL)
-			printf("\n\n");
+			ft_printf("\n");
 		else
-			ft_printf("\t");
+			ft_printf(" ");
 		files = files->next;
 	}
 	return (0);
@@ -36,17 +36,20 @@ static int	display_folder(t_datas datas, int ac)
 	t_list	*dirs;
 	t_dir	*dir;
 	t_file	*file;
+	int		i;
 
 	dirs = datas.dirs;
+	i = 0;
 	while (dirs)
 	{
 		dir = dirs->content;
-		if (ac >= 2)
+		if ((((ac > 2) && (ac != 3 && ft_strstr(datas.flags, "R"))) 
+			|| i++ != 0)) 						//  <=== BUG HERE
 			ft_printf(BLU"%s:\n"NRM, dir->name);
 		while (dir->files)
 		{
 			file = dir->files->content;
-			ft_printf("%s", file->name);
+			ft_printf("%-15s", file->name);
 			if (dir->files->next == NULL)
 				ft_printf("\n\n");
 			else

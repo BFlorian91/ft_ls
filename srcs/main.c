@@ -6,11 +6,16 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 14:33:42 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 17:16:37 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/03 22:04:28 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+
+/*
+ * Segfault sur ./ft_ls -R /
+*/
 
 int		main(int ac, char **av)
 {
