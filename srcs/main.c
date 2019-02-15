@@ -5,20 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/01 14:33:42 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 22:22:50 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/02/04 16:18:35 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/02/06 22:30:31 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-
-/*
- * Segfault sur ./ft_ls -R /
-*/
-
 int		main(int ac, char **av)
 {
-	main_display(ac, av);
-	return (0);
+	t_data	data;
+	int		ret;
+
+	ret = 1;
+	ret = parse_flags(ac, av, &data);
+	parse_files(ac, av, &data, ret);
 }

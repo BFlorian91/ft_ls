@@ -5,155 +5,147 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/02 12:07:54 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 23:25:00 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/02/15 19:02:23 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-/*
-static void		permissions(char *av)
+
+t_dir	*make_node(char *name)
 {
-    struct stat fileStat;
-    if(stat(&av[1], &fileStat) < 0)
+	t_dir *new;
 
-    printf("Information for %c\n",av[1]);
-    printf("---------------------------\n");
-    printf("File Size: \t\t%lld bytes\n",fileStat.st_size);
-    printf("Number of Links: \t%d\n",fileStat.st_nlink);
-    printf("File inode: \t\t%llu\n",fileStat.st_ino);
-
-    printf("File Permissions: \t");
-    printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-    printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
-    printf("\n\n");
-
-    printf("The file %s a symbolic link\n", (S_ISLNK(fileStat.st_mode)) ? "is" : "is not");
-}
-*/
-
-void			*fck_malloc(int size)
-{
-	void	*ret;
-
-	if (!(ret = malloc(size)))
-		exit(1);
-	return (ret);
-}
-
-t_list			*fck_lstnew(void *content, int size)
-{
-	t_list *new;
-	if (!(new = malloc(sizeof(t_list))))
-		exit(1);
-	new->content = content;
-	new->content_size = size;
+	if ((new = (t_dir *)malloc(sizeof(t_dir))) == NULL)
+		return (NULL);
+	new->name = name;
 	new->next = NULL;
 	return (new);
 }
 
-char			*concat(char *s1, char *s2)
+t_dir	*add_push_back(t_dir **dir, char *name)
 {
-	char	*ret;
-	char	*tmp;
+	t_dir *pos;
+	t_dir *new_node;
 
-	tmp = ft_strjoin(s1, "/");
-	ret = ft_strjoin(tmp, s2);
-	free(tmp);
-	return (ret);
-}
-
-static t_dir	*add_dir(char *str, t_datas *datas)
-{
-	t_list		*new;
-	t_dir		*dir;
-
-	dir = fck_malloc(sizeof(t_dir));
-	new = fck_lstnew(dir, sizeof(dir));
-	dir->name = str;
-	dir->files = NULL;
-	stat(str, &dir->file_stat);
-	ft_lstaddlast(&datas->dirs, new);
-	return (dir);
-}
-
-static t_list	*add_file(char *str, t_dir *dir, t_datas *datas)
-{
-	t_list		*new;
-	t_file		*file;
-
-	file = fck_malloc(sizeof(t_file));
-	new = fck_lstnew(file, sizeof(file));
-	file->name = ft_strdup(str);
-	if (dir)
-	{
-		stat(concat(dir->name, str), &(file->file_stat));
-		ft_lstaddlast(&dir->files, new);
-	}
+	new_node = make_node(name);
+	pos = *dir;
+	while(pos && pos->next)
+		pos = pos->next;
+	if (pos)
+		pos->next = new_node;
 	else
+		*dir = new_node;
+	return (new_node);
+}
+
+int		count_element(t_dir *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
 	{
-		stat(str, &file->file_stat);
-		ft_lstaddlast(&datas->files, new);
+		i++;
+		lst = lst->next;
 	}
+	return (i);
+}
+
+static void		display_list(char *dirname, t_dir *file, t_data *data)
+{
+	(void)data;
+	printf(BLU"%s:\n"NRM, dirname);
+	while (file)
+	{
+		printf("%s\n", file->name);
+		file = file->next;
+	}
+}
+
+static int		is_hidden(char *dirname, t_data *data)
+{
+	if (!(ft_strstr(data->flags, "a")))
+		if (!ft_strncmp(dirname, ".", 1))
+			return (1);
+	return (0);
+}
+
+static char		*concat(char *s1, char *s2)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if ((new = malloc(ft_strlen(s1) + ft_strlen(s2) + 2)) == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	new[i++] = '/';
+	while (s2[j])
+	{
+		new[i] = s2[j++];
+		i++;
+	}
+	new[i] = '\0';
 	return (new);
 }
 
-static void	parse_dir(char *dir_name, char *flags, t_datas *datas)
+static int		parse_dir(char *dirname, t_data *data)
 {
-	t_dirent	*name;
-	DIR			*directory;
+	t_dirent	*read;
+	DIR			*p_dir;
+	t_dir		*file;
 	t_dir		*dir;
 
-	directory = NULL;
+	file = NULL;
 	dir = NULL;
-	name = NULL;
-
-	directory = opendir(dir_name);
-	dir = add_dir(dir_name, datas);
-	while ((name = readdir(directory)))
+	if ((p_dir = opendir(dirname)) == NULL)
 	{
-		if (ft_strstr(flags, "R") && ft_strcmp(name->d_name, ".") && ft_strcmp(name->d_name, ".."))
-		{
-			if (name->d_type == 4)
-			{
-				parse_dir(concat(dir_name, name->d_name), flags, datas);
-			}
-		}
-		add_file(name->d_name, dir, datas);
+		perror("ls: ");
+		return (-1);
 	}
-	closedir(directory);
+	while ((read = readdir(p_dir)))
+	{
+		if ((read->d_type == 4) && (!(is_hidden(read->d_name, data))))
+			if (ft_strstr(data->flags, "R")
+					&& ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
+				add_push_back(&dir, concat(dirname, ft_strdup(read->d_name)));
+		if (!is_hidden(read->d_name, data))
+			add_push_back(&file, ft_strdup(read->d_name));
+	}
+	display_list(dirname, file, data);
+	closedir(p_dir);
+	ft_printf("\n");
+	if (ft_strstr(data->flags, "R"))
+	{
+		while (dir)
+		{
+			parse_dir(dir->name, data);
+			dir = dir->next;
+		}
+	}
+	return (1);
 }
 
-void			parse_files(int ac, char **av, t_datas *datas, int i)
+int		parse_files(int ac, char **av, t_data *data, int i)
 {
 	struct stat	file_stat;
-	char		str[255];
-	if (ac == 1 || (ac == 2 && ft_strstr(datas->flags, "R")))
-		parse_dir(".", datas->flags, datas);
+
+	if (ac == 1 || (ac == 2 && ft_strstr(data->flags, "R")))
+		parse_dir(".", data);
 	while (i < ac)
 	{
-		if (stat(av[i], &file_stat) < 0)
-		{
-			ft_strcpy(str, "ls: ");
-			ft_strcat(str, av[i]);
-			perror(str);
-		}
-		else if (S_ISDIR(file_stat.st_mode))
-		{
-			parse_dir(av[i], datas->flags, datas);
-		}
+		if ((stat(av[i], &file_stat)) < 0)
+			perror(av[i]);
 		else
-		{
-			add_file(av[i], NULL, datas);
-		}
+			parse_dir(av[i], data);
 		i++;
 	}
+	return (0);
 }

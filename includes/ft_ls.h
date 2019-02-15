@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/03 22:22:59 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/02/15 18:08:06 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 # define WHT  "\x1B[37m"
 
 
-/** DEBUG **/
+/** RAINBOW DEBUG **/
 # define DEBUG(x) printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN" %d\n"NRM, x);
+# define CDEBUG(y) printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN YEL" %s\n"NRM, y);
+# define fname	printf(" -> %s \n", name->d_name);
 
 /***********/
 
@@ -36,60 +38,23 @@
 # include "../libft/includes/libft.h"
 # include "../ft_printf/includes/libftprintf.h"
 
-typedef struct dirent	t_dirent;
+typedef struct	dirent	t_dirent;
 
-typedef struct	s_datas
+typedef struct			s_dir
 {
-	t_list		*dirs;
-	t_list		*files;
-	char		flags[255];
-}				t_datas;
+	char 				*name;
+	struct stat			stat;
+	struct s_dir	 	*next;
+}						t_dir;
 
-typedef struct	s_dir {
-	t_list		*files;
-	char		*name;
-	struct stat file_stat;
-}				t_dir;
+typedef struct			s_data
+{
+	char				*all_files;
+	char				flags[255];
+}						t_data;
 
-typedef struct	s_file {
-	char		*name;
-	struct stat	file_stat;	
-}				t_file;
 
-int		parse_flags(int ac, char **av, t_datas *datas);
-void	parse_files(int ac, char **av, t_datas *datas, int i);
-int		main_display(int ac, char **av);
+int		parse_flags(int ac, char **av, t_data *data);
+int		parse_files(int ac, char **av, t_data *data, int i);
 
 #endif
-
-/*
-datas
-{
-	dirs (lst)
-	{
-		1
-		2
-		3->content	(t_dir)
-					name (srcs/)
-					stat ..
-					files (lst)
-						1
-						2
-						3
-						4->content (t_file)
-									name
-									stat
-	}
-
-	files (lst)
-	{
-		1
-		2
-		3->content (t_file)
-					name
-					stat
-	}
-
-	flags (str)
-}
-*/

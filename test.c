@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_flags.c                                      :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/02 10:53:13 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/04 19:25:58 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/02/06 18:59:31 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/02/06 19:06:49 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 
-#include "ft_ls.h"
-
-int		parse_flags(int ac, char **av, t_data *data)
+int		ft_strlen(char *str)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		ret;
+	int i;
 
-	k = 0;
 	i = 1;
-	ret = 1;
-	while (i < ac)
-	{
-		j = 0;
-		if (av[i][j++] == '-')
-		{
-			ret++;
-			while (av[i][j] && k < 254)
-				data->flags[k++] = av[i][j++];
-		}
+	while (str[i])
 		i++;
-	}
-	data->flags[k] = '\0';
-	return (ret);
+	return (i);
+}
+
+int		write_test(char *str)
+{
+	write(1, str, ft_strlen(str));
+	return (1);
+}
+
+
+int		main(int ac, char **av)
+{
+	write_test(av[1]);
 }

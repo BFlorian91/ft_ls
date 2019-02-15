@@ -6,14 +6,14 @@
 #    By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/09 16:42:03 by flbeaumo          #+#    #+#              #
-#    Updated: 2019/02/03 17:05:50 by flbeaumo         ###   ########.fr        #
+#    Updated: 2019/02/04 18:42:53 by flbeaumo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
 SRCS = $(addprefix $(SRCS_PATH)/, \
-	   main.c parse_flags.c parse_files.c display.c )
+	   main.c parse_flags.c parse_files.c )
 
 OBJ = $(SRCS:.c=.o)
 
