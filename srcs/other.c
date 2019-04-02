@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/06 18:59:31 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/06 19:06:49 by flbeaumo         ###   ########.fr       */
+/*   Created: 2019/04/02 14:58:16 by flbeaumo          #+#    #+#             */
+/*   Updated: 2019/04/02 14:58:53 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "ft_ls.h"
 
-int		ft_strlen(char *str)
+char		*concat(char *s1, char *s2)
 {
-	int i;
+	char	*new;
+	int		i;
+	int		j;
 
-	i = 1;
-	while (str[i])
+	i = 0;
+	j = 0;
+	if ((new = malloc(ft_strlen(s1) + ft_strlen(s2) + 2)) == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		new[i] = s1[i];
 		i++;
-	return (i);
+	}
+	new[i++] = '/';
+	while (s2[j])
+	{
+		new[i] = s2[j++];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }
 
-int		write_test(char *str)
-{
-	write(1, str, ft_strlen(str));
-	return (1);
-}
-
-
-int		main(int ac, char **av)
-{
-	write_test(av[1]);
-}

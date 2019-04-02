@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/02/15 18:08:06 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/02 15:40:55 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ typedef struct			s_data
 
 int		parse_flags(int ac, char **av, t_data *data);
 int		parse_files(int ac, char **av, t_data *data, int i);
+void		display_list(char *dirname, int nb_folders, t_dir *file);
+char		*concat(char *s1, char *s2);
 
 #endif
