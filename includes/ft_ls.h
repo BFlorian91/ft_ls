@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/02 15:40:55 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/03 15:22:04 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,19 @@
 # define WHT  "\x1B[37m"
 
 
-/** RAINBOW DEBUG **/
-# define DEBUG(x) printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN" %d\n"NRM, x);
-# define CDEBUG(y) printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN YEL" %s\n"NRM, y);
-# define fname	printf(" -> %s \n", name->d_name);
+/* RAINBOW DEBUG */
+# define DEBUG(x) 	printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN" %d\n"NRM, x)
 
-/***********/
+# define CDEBUG(y) 	printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN YEL" %s\n"NRM, y)
+
+# define ERROR(z) 	z ? printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"GRN"[ GREAT ] \
+"YEL"VALUE: "GRN"OK\n"NRM) : \
+			printf(RED"D"BLU"E"YEL"B"GRN"U"MAG"G:"CYN RED"[ ERROR ] \
+"YEL"VALUE: "RED"NULL\n"NRM)
+
+# define fname		printf(YEL"["RED" DEBUG "YEL"]"CYN" ->"MAG" %s \n"NRM, read->d_name)
+
+/* ************* */
 
 # include <dirent.h>
 # include <sys/types.h>
@@ -42,21 +49,23 @@ typedef struct	dirent	t_dirent;
 
 typedef struct			s_dir
 {
-	char 				*name;
-	struct stat			stat;
+	char 			*name;
+	struct stat		stat;
 	struct s_dir	 	*next;
-}						t_dir;
+}				t_dir;
 
 typedef struct			s_data
 {
-	char				*all_files;
-	char				flags[255];
-}						t_data;
+	char			*all_files;
+	char			flags[255];
+}				t_data;
 
 
 int		parse_flags(int ac, char **av, t_data *data);
 int		parse_files(int ac, char **av, t_data *data, int i);
-void		display_list(char *dirname, int nb_folders, t_dir *file);
+void		display_list(t_data *data, char *dirname, int nb_folders, t_dir *file);
 char		*concat(char *s1, char *s2);
+int             opt_r_upper(t_data *data, t_dir *dir, int ac);
+int		parse_dir(char *dirname, int ac, t_data *data);
 
 #endif

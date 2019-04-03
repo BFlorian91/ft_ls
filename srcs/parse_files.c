@@ -6,13 +6,13 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/02 15:45:19 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:32:40 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_dir	*make_node(char *name)
+t_dir	*push(char *name)
 {
     t_dir *new;
 
@@ -23,15 +23,29 @@ t_dir	*make_node(char *name)
     return (new);
 }
 
-t_dir	*add_push_back(t_dir **dir, char *name)
+t_dir	*create_lst(t_dir **dir, char *name)
 {
     t_dir *pos;
     t_dir *new_node;
 
-    new_node = make_node(name);
+    new_node = push(name);
     pos = *dir;
     while(pos && pos->next)
         pos = pos->next;
+    if (pos)
+        pos->next = new_node;
+    else
+        *dir = new_node;
+    return (new_node);
+}
+
+t_dir	*opt_r(t_dir **dir, char *name)
+{
+    t_dir *pos;
+    t_dir *new_node;
+
+    new_node = push(name);
+    pos = *dir;
     if (pos)
         pos->next = new_node;
     else
@@ -46,11 +60,43 @@ static int		is_hidden(char *dirname, t_data *data)
             return (1);
     return (0);
 }
-
-
-static int		parse_dir(char *dirname, int ac, t_data *data)
+/* ********************** WTF ******************** */
+void    display_lst_vitef(t_dir *dir)
 {
-    t_dirent	*read;
+    while (dir)
+    {
+        printf("%s\n", dir->name);
+        dir = dir->next;
+    }
+    printf(YEL"============================\n"NRM);
+}
+
+/* ********************** WTF ******************** */
+t_dir   *sort_list(t_dir *lst)
+{
+    char *tmp;
+    t_dir *start;
+
+    start = lst;
+    while (lst->next)
+    {
+        if (ft_strcmp(lst->name, lst->next->name) > 0)
+        {
+            tmp = lst->name;
+            lst->name = lst->next->name;
+            lst->next->name = tmp;
+            lst = start;
+        }
+        else
+            lst = lst->next;
+    }
+    lst = start;
+    return (start);
+}
+
+int		parse_dir(char *dirname, int ac, t_data *data)
+{
+    t_dirent	        *read;
     DIR			*p_dir;
     t_dir		*file;
     t_dir		*dir;
@@ -64,24 +110,28 @@ static int		parse_dir(char *dirname, int ac, t_data *data)
     }
     while ((read = readdir(p_dir)))
     {
-        if ((read->d_type == 4) && (!(is_hidden(read->d_name, data))))
-            if (ft_strstr(data->flags, "R")
+        if ((read->d_type == 4) && (!(is_hidden(read->d_name, data)))
+                && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
+        {
+            if (ft_strstr(data->flags, "R") 
                     && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
-                add_push_back(&dir, concat(dirname, ft_strdup(read->d_name)));
+            {   
+                if (ft_strstr(data->flags, "r"))
+                    opt_r(&dir, concat(dirname, ft_strdup(read->d_name)));
+                else
+                    create_lst(&dir, concat(dirname, ft_strdup(read->d_name)));
+            }
+        }
         if (!is_hidden(read->d_name, data))
-            add_push_back(&file, ft_strdup(read->d_name));
+            create_lst(&file, ft_strdup(read->d_name));
     }
-    display_list(dirname, ac, file);
+    if (dir)
+        dir = sort_list(dir);
+    file = sort_list(file);
+    display_list(data, dirname, ac, file);
     closedir(p_dir);
     ft_printf("\n");
-    if (ft_strstr(data->flags, "R"))
-    {
-        while (dir)
-        {
-            parse_dir(dir->name, ac, data);
-            dir = dir->next;
-        }
-    }
+    opt_r_upper(data, dir, ac);
     return (1);
 }
 
