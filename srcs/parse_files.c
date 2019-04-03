@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/03 19:26:36 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/03 20:42:41 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		parse_dir(char *dirname, int ac, t_data *data)
                 create_lst(&dir, concat(dirname, ft_strdup(read->d_name)));
         }
         if (!is_hidden(read->d_name, data))
-            create_lst(&file,  ft_strdup(read->d_name));
+            create_lst(&file, ft_strdup(read->d_name));
     }
     if (dir)
         dir = sort_list(dir);
@@ -133,7 +133,8 @@ int		parse_files(int ac, char **av, t_data *data, int i)
 {
     struct stat	file_stat;
 
-    if (ac == 1 || (ac == 2 && ft_strstr(data->flags, "R")))
+    if (ac == 1 || (ac == 2 && ft_strstr(data->flags, "R"))
+            ||(ac == 2 && ft_strstr(data->flags, "a")))
         parse_dir(".", ac, data);
     while (i < ac)
     {
