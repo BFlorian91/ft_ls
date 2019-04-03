@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/03 18:32:40 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/03 19:26:36 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,20 +110,14 @@ int		parse_dir(char *dirname, int ac, t_data *data)
     }
     while ((read = readdir(p_dir)))
     {
-        if ((read->d_type == 4) && (!(is_hidden(read->d_name, data)))
-                && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
+        if ((read->d_type == 4) && (!(is_hidden(read->d_name, data))))
         {
             if (ft_strstr(data->flags, "R") 
                     && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
-            {   
-                if (ft_strstr(data->flags, "r"))
-                    opt_r(&dir, concat(dirname, ft_strdup(read->d_name)));
-                else
-                    create_lst(&dir, concat(dirname, ft_strdup(read->d_name)));
-            }
+                create_lst(&dir, concat(dirname, ft_strdup(read->d_name)));
         }
         if (!is_hidden(read->d_name, data))
-            create_lst(&file, ft_strdup(read->d_name));
+            create_lst(&file,  ft_strdup(read->d_name));
     }
     if (dir)
         dir = sort_list(dir);
