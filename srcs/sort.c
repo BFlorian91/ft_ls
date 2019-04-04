@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 10:49:32 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/04 11:14:04 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:48:39 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void   sorted_lst_swap(t_dir *lst, t_dir *start)
     char    *tmp;
 
     start = lst;
-    while(lst->next)
+    while(lst && lst->next)
     {
         if (ft_strcmp(lst->name, lst->next->name) > 0)
         {
@@ -37,7 +37,7 @@ static void   unsorted_lst_swap(t_dir *lst, t_dir *start)
     char    *tmp;
 
     start = lst;
-    while(lst->next)
+    while(lst && lst->next)
     {
         if (ft_strcmp(lst->name, lst->next->name) < 0)
         {

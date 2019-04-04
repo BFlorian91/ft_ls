@@ -6,14 +6,14 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/04 11:22:04 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:45:46 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 
-t_dir	*push_back(t_dir **dir, char *name)
+t_dir           *push_back(t_dir **dir, char *name)
 {
     t_dir *pos;
     t_dir *new_node;
@@ -32,15 +32,13 @@ t_dir	*push_back(t_dir **dir, char *name)
     return (new_node);
 }
 
-static int		is_hidden(char *dirname, t_data *data)
+static int	is_hidden(char *dirname, t_data *data)
 {
     if (!(ft_strstr(data->flags, "a")))
         if (!ft_strncmp(dirname, ".", 1))
             return (1);
     return (0);
 }
-
-
 
 int		parse_dir(char *dirname, int ac, t_data *data)
 {
@@ -68,7 +66,7 @@ int		parse_dir(char *dirname, int ac, t_data *data)
             push_back(&file, ft_strdup(read->d_name));
     }
     if (dir && ft_strstr(data->flags, "r"))
-        dir = sort_list(dir, true);
+        dir = sort_list(dir, false);
     !ft_strstr(data->flags, "r") ? (file = sort_list(file, true)) : (file = sort_list(file, false));
     display_list(data, dirname, ac, file);
     closedir(p_dir);
