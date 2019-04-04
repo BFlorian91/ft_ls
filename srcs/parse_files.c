@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/04 11:10:14 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/04 11:22:04 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int		parse_files(int ac, char **av, t_data *data, int i)
     struct stat	file_stat;
 
     if (ac == 1 || (ac == 2 && ft_strstr(data->flags, "R"))
-            ||(ac == 2 && ft_strstr(data->flags, "a")))
+            || (ac == 2 && ft_strstr(data->flags, "a"))
+            || (ac == 2 && ft_strstr(data->flags, "r")))
         parse_dir(".", ac, data);
     while (i < ac)
     {
