@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/03 15:22:04 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/04 11:09:36 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@
 # define fname		printf(YEL"["RED" DEBUG "YEL"]"CYN" ->"MAG" %s \n"NRM, read->d_name)
 
 /* ************* */
+
+typedef int bool;
+
+#define true 1
+#define false 0
 
 # include <dirent.h>
 # include <sys/types.h>
@@ -67,5 +72,6 @@ void		display_list(t_data *data, char *dirname, int nb_folders, t_dir *file);
 char		*concat(char *s1, char *s2);
 int             opt_r_upper(t_data *data, t_dir *dir, int ac);
 int		parse_dir(char *dirname, int ac, t_data *data);
+t_dir		*sort_list(t_dir *lst, bool sort);
 
 #endif

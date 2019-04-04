@@ -6,7 +6,7 @@
 #    By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/09 16:42:03 by flbeaumo          #+#    #+#              #
-#    Updated: 2019/04/03 16:26:43 by flbeaumo         ###   ########.fr        #
+#    Updated: 2019/04/04 11:07:45 by flbeaumo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS = $(addprefix $(SRCS_PATH)/, \
 	display.c \
 	other.c \
 	options.c \
+	sort.c \
 )
 
 OBJ = $(SRCS:.c=.o)
