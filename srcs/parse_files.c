@@ -6,14 +6,14 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/04 19:45:46 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/05 19:07:24 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 
-t_dir           *push_back(t_dir **dir, char *name)
+t_dir           *push_back(t_dir **dir, char *name, unsigned int date)
 {
     t_dir *pos;
     t_dir *new_node;
@@ -21,6 +21,7 @@ t_dir           *push_back(t_dir **dir, char *name)
     if ((new_node = (t_dir *)malloc(sizeof(t_dir))) == NULL)
         return (NULL);
     new_node->name = name;
+    new_node->date = date;
     new_node->next = NULL;
     pos = *dir;
     while(pos && pos->next)
@@ -32,20 +33,13 @@ t_dir           *push_back(t_dir **dir, char *name)
     return (new_node);
 }
 
-static int	is_hidden(char *dirname, t_data *data)
-{
-    if (!(ft_strstr(data->flags, "a")))
-        if (!ft_strncmp(dirname, ".", 1))
-            return (1);
-    return (0);
-}
-
-int		parse_dir(char *dirname, int ac, t_data *data)
+int		parse(char *dirname, int ac, t_data *data)
 {
     t_dirent	        *read;
     DIR			*p_dir;
     t_dir		*file;
     t_dir		*dir;
+    struct stat	        file_stat;
 
     file = NULL;
     dir = NULL;
@@ -56,40 +50,61 @@ int		parse_dir(char *dirname, int ac, t_data *data)
     }
     while ((read = readdir(p_dir)))
     {
-        if ((read->d_type == 4) && (!(is_hidden(read->d_name, data))))
+        if ((read->d_type == 4) && (!(opt_a(read->d_name, data))))
         {
             if (ft_strstr(data->flags, "R") 
                     && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
-                push_back(&dir, concat(dirname, ft_strdup(read->d_name)));
+            {
+                stat(read->d_name, &file_stat);
+                push_back(&dir, concat(dirname, ft_strdup(read->d_name))
+                        , file_stat.st_mtime);
+            }
         }
-        if (!is_hidden(read->d_name, data))
-            push_back(&file, ft_strdup(read->d_name));
+        if (!opt_a(read->d_name, data))
+            push_back(&file, ft_strdup(read->d_name)
+                    , file_stat.st_mtime);
     }
+    if (ft_strstr(data->flags, "t"))
+    {
+        printf("t: FILE *** %d ***\n", file->date);
+        if (dir)
+            printf("t: DIR *** %d ***\n", dir->date);
+    }
+    
     if (dir && ft_strstr(data->flags, "r"))
         dir = sort_list(dir, false);
-    !ft_strstr(data->flags, "r") ? (file = sort_list(file, true)) : (file = sort_list(file, false));
+    
+    !ft_strstr(data->flags, "r") ? (file = sort_list(file, true))
+        : (file = sort_list(file, false));
+    
     display_list(data, dirname, ac, file);
+    
     closedir(p_dir);
+    
     ft_printf("\n");
+    
     opt_r_upper(data, dir, ac);
     return (1);
 }
 
-int		parse_files(int ac, char **av, t_data *data, int i)
+int		road_to_parse(int ac, char **av, t_data *data, int i)
 {
     struct stat	file_stat;
 
     if (ac == 1 || (ac == 2 && ft_strstr(data->flags, "R"))
             || (ac == 2 && ft_strstr(data->flags, "a"))
             || (ac == 2 && ft_strstr(data->flags, "r")))
-        parse_dir(".", ac, data);
-    while (i < ac)
+        parse(".", ac, data);
+    else
     {
-        if ((stat(av[i], &file_stat)) < 0)
-            perror(av[i]);
-        else
-            parse_dir(av[i], ac, data);
-        i++;
+        while (i < ac)
+        {
+            if ((stat(av[i], &file_stat)) < 0)
+                perror(av[i]);
+            else
+                parse(av[i], ac, data);
+            i++;
+        }
     }
     return (0);
 }

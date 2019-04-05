@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/04 11:09:36 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/05 18:28:12 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct	dirent	t_dirent;
 typedef struct			s_dir
 {
 	char 			*name;
-	struct stat		stat;
+	unsigned int		date;
 	struct s_dir	 	*next;
 }				t_dir;
 
@@ -67,11 +67,13 @@ typedef struct			s_data
 
 
 int		parse_flags(int ac, char **av, t_data *data);
-int		parse_files(int ac, char **av, t_data *data, int i);
+int		road_to_parse(int ac, char **av, t_data *data, int i);
 void		display_list(t_data *data, char *dirname, int nb_folders, t_dir *file);
 char		*concat(char *s1, char *s2);
 int             opt_r_upper(t_data *data, t_dir *dir, int ac);
-int		parse_dir(char *dirname, int ac, t_data *data);
+int		opt_a(char *dirname, t_data *data);
+int		parse(char *dirname, int ac, t_data *data);
 t_dir		*sort_list(t_dir *lst, bool sort);
+t_dir 		*opt_t(t_dir *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 10:49:32 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/04 19:48:39 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/05 13:41:11 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void   sorted_lst_swap(t_dir *lst, t_dir *start)
             lst = lst->next;
     }
 }
-
 
 static void   unsorted_lst_swap(t_dir *lst, t_dir *start)
 {
