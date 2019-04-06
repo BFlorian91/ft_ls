@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 15:11:07 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:56:37 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,18 @@ int		parse(char *dirname, int ac, t_data *data)
                     && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
             {
                 push_back(&dir, concat(dirname, ft_strdup(read->d_name)), file_stat.st_mtime);
-                printf(RED"--> LAST UPDATE: %d secondes\n"NRM, dir->date);
+                /*printf(RED"--> %s: %ld secondes or %s\n"NRM, dir->name, file_stat.st_mtime, ctime(&file_stat.st_mtime));*/
             }
         }
         if (opt_a(read->d_name, data))
         {
             push_back(&file, ft_strdup(read->d_name)
                     , file_stat.st_mtime);
-            printf(RED"--> LAST UPDATE: %d secondes\n"NRM, file->date);
+            /*printf(RED"--> %s: %ld secondes or %s\n"NRM, file->name, file_stat.st_mtime, ctime(&file_stat.st_mtime));*/
         }
     }
 
-    ////////// SORT ////////////
+    /////////////////// SORT ////////////////////
 
     if (ft_strstr(data->flags, "t"))
     {
@@ -87,8 +87,7 @@ int		parse(char *dirname, int ac, t_data *data)
                 file = opt_tr(file);
         }
     }
-
-    if (!ft_strstr(data->flags, "t"))
+    else
     {
         if (dir && ft_strstr(data->flags, "r"))
             dir = sort_list(dir, false);
@@ -98,16 +97,25 @@ int		parse(char *dirname, int ac, t_data *data)
         else if (!ft_strstr(data->flags, "r"))
             file = sort_list(file, true);
     }
+    
 
     //////////////////////////////////////////
 
+    ////////////// DISPLAY ///////////////////
+    if (ft_strstr(data->flags, "l"))
+    {
+        if (file)
+            opt_l(file);
+        if (dir)
+            opt_l(dir);
+    }
+    else
+        display_list(data, dirname, ac, file);
 
-    display_list(data, dirname, ac, file);
+    //////////////////////////////////////////
 
     closedir(p_dir);
-
     ft_printf("\n");
-
     opt_r_upper(data, dir, ac);
     return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:33:37 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 14:54:22 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:56:16 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int     opt_r_upper(t_data *data, t_dir *dir, int ac)
     return (0);
 }
 
+////// DEBUG ///////////////
+
 void    wild(t_dir *lst)
 {
     while (lst)
@@ -38,6 +40,8 @@ void    wild(t_dir *lst)
         lst = lst->next;
     }
 }
+
+////////////////////////////
 
 t_dir   *opt_t(t_dir *lst)
 {
@@ -61,7 +65,6 @@ t_dir   *opt_t(t_dir *lst)
         lst = lst->next;
     }
     lst = start;
-    wild(lst);
     return (lst);
 }
 
@@ -87,7 +90,6 @@ t_dir   *opt_tr(t_dir *lst)
         lst = lst->next;
     }
     lst = start;
-    wild(lst);
     return (lst);
 }
 
@@ -97,4 +99,35 @@ int	opt_a(char *dirname, t_data *data)
         if (!(ft_strncmp(dirname, ".", 1)))
             return (0);
     return (1);
+}
+
+void    opt_l(t_dir *lst)
+{
+    struct stat file_stat;
+
+
+    while (lst)
+    {
+        stat(lst->name, &file_stat);
+        ft_printf("Name: %s\n", lst->name);
+        ft_printf("---------------------------\n");
+        ft_printf("File Size: \t\t%lld bytes\n", file_stat.st_size);
+        ft_printf("File inode: \t\t%lld\n" ,file_stat.st_ino);
+        ft_printf("Number of Links: \t%d\n" ,file_stat.st_nlink);
+        ft_printf("Symbolic link: \t\t%lld\n", (S_ISLNK(file_stat.st_mode)) ? "Yes" : "No" );
+
+        ft_printf("File Permissions: \t");
+        ft_printf( (S_ISDIR(file_stat.st_mode)) ? "d" : "-");
+        ft_printf( (file_stat.st_mode & S_IRUSR) ? "r" : "-");
+        ft_printf( (file_stat.st_mode & S_IWUSR) ? "w" : "-");
+        ft_printf( (file_stat.st_mode & S_IXUSR) ? "x" : "-");
+        ft_printf( (file_stat.st_mode & S_IRGRP) ? "r" : "-");
+        ft_printf( (file_stat.st_mode & S_IWGRP) ? "w" : "-");
+        ft_printf( (file_stat.st_mode & S_IXGRP) ? "x" : "-");
+        ft_printf( (file_stat.st_mode & S_IROTH) ? "r" : "-");
+        ft_printf( (file_stat.st_mode & S_IWOTH) ? "w" : "-");
+        ft_printf( (file_stat.st_mode & S_IXOTH) ? "x" : "-");
+        ft_printf("\n\n");
+        lst = lst->next;
+    }
 }
