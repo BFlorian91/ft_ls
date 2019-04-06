@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/05 18:28:12 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/06 14:55:57 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 /* ************* */
 
 typedef int bool;
+typedef unsigned int u_int;
 
 #define true 1
 #define false 0
@@ -75,5 +76,6 @@ int		opt_a(char *dirname, t_data *data);
 int		parse(char *dirname, int ac, t_data *data);
 t_dir		*sort_list(t_dir *lst, bool sort);
 t_dir 		*opt_t(t_dir *lst);
+t_dir 		*opt_tr(t_dir *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/05 19:07:24 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/06 14:59:16 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,64 @@ int		parse(char *dirname, int ac, t_data *data)
     }
     while ((read = readdir(p_dir)))
     {
-        if ((read->d_type == 4) && (!(opt_a(read->d_name, data))))
+        stat(read->d_name, &file_stat);
+        if ((read->d_type == 4) && ((opt_a(read->d_name, data))))
         {
             if (ft_strstr(data->flags, "R") 
                     && ft_strcmp(read->d_name, ".") && ft_strcmp(read->d_name, ".."))
             {
-                stat(read->d_name, &file_stat);
-                push_back(&dir, concat(dirname, ft_strdup(read->d_name))
-                        , file_stat.st_mtime);
+                push_back(&dir, concat(dirname, ft_strdup(read->d_name)), file_stat.st_mtime);
+                printf(RED"--> LAST UPDATE: %d secondes\n"NRM, dir->date);
             }
         }
-        if (!opt_a(read->d_name, data))
+        if (opt_a(read->d_name, data))
+        {
             push_back(&file, ft_strdup(read->d_name)
                     , file_stat.st_mtime);
+            printf(RED"--> LAST UPDATE: %d secondes\n"NRM, file->date);
+        }
     }
+
+    ////////// SORT ////////////
+
     if (ft_strstr(data->flags, "t"))
     {
-        printf("t: FILE *** %d ***\n", file->date);
-        if (dir)
-            printf("t: DIR *** %d ***\n", dir->date);
+        if (!ft_strstr(data->flags, "r"))
+        {
+            if (dir)
+                dir = opt_t(dir);
+            if (file)
+                file =opt_t(file);
+        }
+        else
+        {
+            if (dir)
+                dir = opt_tr(dir);
+            if (file)
+                file = opt_tr(file);
+        }
     }
-    
-    if (dir && ft_strstr(data->flags, "r"))
-        dir = sort_list(dir, false);
-    
-    !ft_strstr(data->flags, "r") ? (file = sort_list(file, true))
-        : (file = sort_list(file, false));
-    
+
+    if (!ft_strstr(data->flags, "t"))
+    {
+        if (dir && ft_strstr(data->flags, "r"))
+            dir = sort_list(dir, false);
+
+        if (ft_strstr(data->flags, "r"))
+            (file = sort_list(file, true));
+        else if (!ft_strstr(data->flags, "r"))
+            (file = sort_list(file, false));
+    }
+
+    //////////////////////////////////////////
+
+
     display_list(data, dirname, ac, file);
-    
+
     closedir(p_dir);
-    
+
     ft_printf("\n");
-    
+
     opt_r_upper(data, dir, ac);
     return (1);
 }
