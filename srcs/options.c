@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:33:37 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:56:16 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/06 19:43:49 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,21 @@ void    opt_l(t_dir *lst)
 {
     struct stat file_stat;
 
-
     while (lst)
     {
         stat(lst->name, &file_stat);
-        ft_printf("Name: %s\n", lst->name);
-        ft_printf("---------------------------\n");
+        if (S_ISDIR(file_stat.st_mode))
+            printf("Name: "BLU"%s\n", lst->name);
+        else if (file_stat.st_mode & S_IXUSR)
+            printf("Name: "RED"%s\n", lst->name);
+        else    
+            printf("Name: %s\n", lst->name);
+        ft_printf(NRM"----------------------------------\n");
         ft_printf("File Size: \t\t%lld bytes\n", file_stat.st_size);
         ft_printf("File inode: \t\t%lld\n" ,file_stat.st_ino);
         ft_printf("Number of Links: \t%d\n" ,file_stat.st_nlink);
-        ft_printf("Symbolic link: \t\t%lld\n", (S_ISLNK(file_stat.st_mode)) ? "Yes" : "No" );
+        S_ISLNK(file_stat.st_mode) ? printf("Symbolic link: \t\tYes\n")
+            : printf("Symbolic link: \t\tNo\n");
 
         ft_printf("File Permissions: \t");
         ft_printf( (S_ISDIR(file_stat.st_mode)) ? "d" : "-");
