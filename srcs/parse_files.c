@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 14:59:16 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/06 15:11:07 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ int		parse(char *dirname, int ac, t_data *data)
             dir = sort_list(dir, false);
 
         if (ft_strstr(data->flags, "r"))
-            (file = sort_list(file, true));
+            file = sort_list(file, false);
         else if (!ft_strstr(data->flags, "r"))
-            (file = sort_list(file, false));
+            file = sort_list(file, true);
     }
 
     //////////////////////////////////////////
