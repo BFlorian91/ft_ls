@@ -31,59 +31,71 @@ center()
 
 clear
 title "FAILS CHECKER"
-echo -e $LBLUE"\nPress enter to continue...\n"
+#echo -e $LBLUE"\nPress enter to continue...\n"
+#read
+############ CHECK NORM ############
+#center "Norm test:"
+#norminette -R CheckForbiddenSourceHeader */*.c
+#echo -e $GREEN"\nTest completed!"$NC
+############ CHECK PRINTF ############
+#center "Check printf press ENTER ..."
+#read
+#ret="$(cat */*.c 2>/dev/null | grep "printf" | wc -l | tr -d " ")"
+#if [ $ret -ne 0 ]
+#then
+	#echo -e $ORANGE"NUMBER OF PRINTF: $ret" $RED"FAILED ❌ "$NC
+	#cat */*.c | grep "printf"
+#else
+	#echo -e $GREEN"\n\n[OK] ✅  "$NC
+#fi
+############# CHECK INCLUDE ###############
+#center "Check #INCLUDE press ENTER ..."
+#read
+#ret="$(cat */*.c 2>/dev/null | grep "stdio.h" | wc -l | tr -d " ")"
+#if [ $ret -ne 0 ]
+#then
+	#echo -e $ORANGE"stdio.h:"$RED" $ret" $RED"FAILED ❌ "$NC
+	#cat */*.c | grep "stdio.h"
+#else
+	#echo -e $GREEN"\nInvalid include: 0 [OK] ✅  "$NC
+#fi
+############ A.OUT CHECKER ############
+#center "Check A.OUT press ENTER ..."
+#read
+#ret="$(ls -R 2>/dev/null | grep "a.out" | wc -l | tr -d " ")"
+#if [ $ret -ne 0 ]
+#then
+	#echo -e $ORANGE"NUMBER OF A.OUT:"$RED" $ret\n"$NC
+	#echo -e $ORANGE"Do you want delete it? y/n"$NC
+	#read answer
+	#if [ "$answer" = "y" ] || [ "$answer" = "Y" ]
+	#then
+		#rm */a.out
+		#echo -e $GREEN"all a.out has been delete."$NC
+	#fi
+#else
+	#echo -e $GREEN"\na.out: 0 [OK] ✅  "$NC
+#fi
+############# CHECK INCLUDE ###############
+#center "Check MALLOC PROTECT press ENTER ..."
+#read
+#echo -e $NC
+#ret="$(cat */*.c 2>/dev/null | grep "malloc" | wc -l | tr -d " ")"
+#if [ $ret -ne 0 ]
+#then
+	#cat */*.c | grep "= malloc"
+#fi
+center "Check OPERATOR press ENTER..."
 read
-########### CHECK NORM ############
-center "Norm test:"
-norminette -R CheckForbiddenSourceHeader */*.c
-echo -e $GREEN"\nTest completed!"$NC
-########### CHECK PRINTF ############
-center "Check printf press ENTER ..."
-read
-ret="$(cat */*.c 2>/dev/null | grep "printf" | wc -l | tr -d " ")"
-if [ $ret -ne 0 ]
+ret="$(cat */*.c 2>/dev/null | grep -E '$&& | $||')"
+if [[ $ret -ne 0 ]]
 then
-	echo -e $ORANGE"NUMBER OF PRINTF: $ret" $RED"FAILED ❌ "$NC
-	cat */*.c | grep "printf"
+	echo -e $ORANGE"Operator: "$RED" $ret" $RED"Norm ERROR ❌ "$NC
+	cat */*.c | grep "$&&" && grep "$||"
 else
-	echo -e $GREEN"\n\n[OK] ✅  "$NC
+	echo -e $GREEN"\nOperator at the end of line: 0 [OK] ✅  "$NC
 fi
-############ CHECK INCLUDE ###############
-center "Check #INCLUDE press ENTER ..."
-read
-ret="$(cat */*.c 2>/dev/null | grep "stdio.h" | wc -l | tr -d " ")"
-if [ $ret -ne 0 ]
-then
-	echo -e $ORANGE"stdio.h:"$RED" $ret" $RED"FAILED ❌ "$NC
-	cat */*.c | grep "stdio.h"
-else
-	echo -e $GREEN"\nInvalid include: 0 [OK] ✅  "$NC
-fi
-########### A.OUT CHECKER ############
-center "Check A.OUT press ENTER ..."
-read
-ret="$(ls -R 2>/dev/null | grep "a.out" | wc -l | tr -d " ")"
-if [ $ret -ne 0 ]
-then
-	echo -e $ORANGE"NUMBER OF A.OUT:"$RED" $ret\n"$NC
-	echo -e $ORANGE"Do you want delete it? y/n"$NC
-	read answer
-	if [ "$answer" = "y" ] || [ "$answer" = "Y" ]
-	then
-		rm */a.out
-		echo -e $GREEN"all a.out has been delete."$NC
-	fi
-else
-	echo -e $GREEN"\na.out: 0 [OK] ✅  "$NC
-fi
-############ CHECK INCLUDE ###############
-center "Check MALLOC PROTECT press ENTER ..."
-read
-echo -e $NC
-ret="$(cat */*.c 2>/dev/null | grep "malloc" | wc -l | tr -d " ")"
-if [ $ret -ne 0 ]
-then
-	cat */*.c | grep "= malloc"
-fi
+
+
 center "END"
 read

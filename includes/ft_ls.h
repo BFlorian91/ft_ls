@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:56:26 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/08 19:35:58 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 # define fname		printf(YEL"["RED" DEBUG "YEL"]"CYN" ->"MAG" %s \n"NRM, read->d_name)
 
+# define BREAK_CODE	read(1, NULL, 1)
 /* ************* */
 
 typedef int bool;
@@ -57,6 +58,10 @@ typedef struct			s_dir
 {
 	char 			*name;
 	unsigned int		date;
+	long long int		file_size;
+	int			nb_link;
+	bool			link;
+
 	struct s_dir	 	*next;
 }				t_dir;
 
@@ -78,5 +83,9 @@ t_dir		*sort_list(t_dir *lst, bool sort);
 t_dir 		*opt_t(t_dir *lst);
 t_dir 		*opt_tr(t_dir *lst);
 void    	opt_l(t_dir *lst);
+
+// TEST //
+t_dir   	*opt_test(t_dir *lst);
+//////////
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 19:06:33 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/08 14:03:40 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int		parse(char *dirname, int ac, t_data *data)
         if (!ft_strstr(data->flags, "r"))
         {
             if (dir)
-                dir = opt_t(dir);
+                dir = opt_test(dir);
             if (file)
-                file =opt_t(file);
+                file =opt_test(file);
         }
         else
         {
@@ -108,8 +108,8 @@ int		parse(char *dirname, int ac, t_data *data)
         if (dir)
             opt_l(dir);
     }
-    else
-        display_list(data, dirname, ac, file);
+    /*else*/
+        /*display_list(data, dirname, ac, file);*/
 
     //////////////////////////////////////////
 

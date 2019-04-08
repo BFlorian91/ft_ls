@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:33:37 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/06 19:43:49 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/08 14:03:05 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 u_int   sort_date(u_int a, u_int b)
 {
     return (a < b);
+}
+
+static int  compare(void *e1, void *e2)
+{
+    return ((*(t_dir **)e1)->date > (*(t_dir **)e2)->date);
 }
 
 int     opt_r_upper(t_data *data, t_dir *dir, int ac)
@@ -43,6 +48,13 @@ void    wild(t_dir *lst)
 
 ////////////////////////////
 
+/*t_dir *list_switch(t_dir *l1, t_dir *l2 )*/
+/*{*/
+    /*l1->next = l2->next;*/
+    /*l2->next = l1;*/
+    /*return (l2);*/
+/*}*/
+
 t_dir   *opt_t(t_dir *lst)
 {
     char    *tmp_name;
@@ -52,7 +64,7 @@ t_dir   *opt_t(t_dir *lst)
     start = lst;
     while(lst && lst->next)
     {
-        if (sort_date(lst->date, lst->next->date) > 0)
+        if (compare(&lst->date, &lst->next->date) > 0)
         {
             tmp_name = lst->name;
             tmp_date = lst->date;
@@ -62,9 +74,71 @@ t_dir   *opt_t(t_dir *lst)
             lst->next->date = tmp_date;
             lst = start;
         }
-        lst = lst->next;
+        else
+            lst = lst->next;
+
+    wild(lst);
+    CDEBUG("==============================|\n");
     }
     lst = start;
+    return (lst);
+}
+
+t_dir   *opt_test(t_dir *lst)
+{
+    if (!lst)
+        return (NULL);
+    if (!lst->next)
+        return (lst);
+    t_dir   *start;
+    int     sorted;
+
+    start = lst;
+    CDEBUG(RED"\n\nBEFORE \n"NRM);
+    wild(start);
+    sorted = 1;
+    while (sorted)
+    {
+        t_dir *prev;
+        t_dir *current;
+        t_dir *next;
+        prev = NULL;
+        current = start;
+        next = current->next;
+        sorted = 0;
+        while (next)
+        {
+            if (current->date > next->date)
+            {
+                sorted = 1;
+                if (!prev)
+                    start = next;
+                else
+                    prev->next = next;
+                current->next = next->next;
+                next->next = current;
+                prev = next;
+                next = current->next;
+            }
+            else
+            {
+                prev = current;
+                current = current->next;
+                next = current->next;
+            }
+            /////// DEBUG ///////
+
+            /*CDEBUG(prev->name);*/
+            /*CDEBUG(current->name);*/
+            /*if (next)*/
+                /*CDEBUG(next->name);*/
+            /*CDEBUG("-----------");*/
+            /////////////////////
+        }
+    }
+    CDEBUG(RED"\n\nAFTER \n"NRM);
+    wild(start);
+
     return (lst);
 }
 
@@ -77,7 +151,7 @@ t_dir   *opt_tr(t_dir *lst)
     start = lst;
     while(lst && lst->next)
     {
-        if (sort_date(lst->next->date, lst->date) > 0)
+        if (compare(&lst->date, &lst->next->date) > 0)
         {
             tmp_name = lst->name;
             tmp_date = lst->date;
@@ -116,10 +190,12 @@ void    opt_l(t_dir *lst)
             printf("Name: %s\n", lst->name);
         ft_printf(NRM"----------------------------------\n");
         ft_printf("File Size: \t\t%lld bytes\n", file_stat.st_size);
-        ft_printf("File inode: \t\t%lld\n" ,file_stat.st_ino);
+        /*ft_printf("File inode: \t\t%lld\n" ,file_stat.st_ino);*/
         ft_printf("Number of Links: \t%d\n" ,file_stat.st_nlink);
         S_ISLNK(file_stat.st_mode) ? printf("Symbolic link: \t\tYes\n")
             : printf("Symbolic link: \t\tNo\n");
+        ft_printf("Date: \t\t\t%s\n", ctime(&file_stat.st_mtime));
+
 
         ft_printf("File Permissions: \t");
         ft_printf( (S_ISDIR(file_stat.st_mode)) ? "d" : "-");
