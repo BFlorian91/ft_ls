@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:09:24 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/08 14:03:40 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/10 20:08:50 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@ int		parse(char *dirname, int ac, t_data *data)
         if (!ft_strstr(data->flags, "r"))
         {
             if (dir)
-                dir = opt_test(dir);
+                opt_test(&dir, data);
             if (file)
-                file =opt_test(file);
+                opt_test(&file, data);
         }
         else
         {
             if (dir)
-                dir = opt_tr(dir);
+                opt_tr(&dir, data);
             if (file)
-                file = opt_tr(file);
+                opt_tr(&file, data);
         }
     }
     else
@@ -108,8 +108,8 @@ int		parse(char *dirname, int ac, t_data *data)
         if (dir)
             opt_l(dir);
     }
-    /*else*/
-        /*display_list(data, dirname, ac, file);*/
+    else
+        display_list(data, dirname, ac, file);
 
     //////////////////////////////////////////
 
@@ -125,7 +125,9 @@ int		road_to_parse(int ac, char **av, t_data *data, int i)
 
     if (ac == 1 || (ac == 2 && ft_strstr(data->flags, "R"))
             || (ac == 2 && ft_strstr(data->flags, "a"))
-            || (ac == 2 && ft_strstr(data->flags, "r")))
+            || (ac == 2 && ft_strstr(data->flags, "r"))
+            || (ac == 2 && ft_strstr(data->flags, "t"))
+            || (ac == 2 && ft_strstr(data->flags, "l")))
         parse(".", ac, data);
     else
     {

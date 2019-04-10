@@ -6,7 +6,7 @@
 /*   By: flbeaumo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 15:12:06 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/08 15:11:06 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/10 19:36:11 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ size_t				ft_lstlen(t_list *lst);
 int				ft_sqrt(int nb);
 void				ft_lstaddlast(t_list **start, t_list *new);
 size_t				sort_int(size_t a, size_t b);
-int			    	bb_printf(const void *source);
+void				ft_putint(int *tab, int size);
 
 #endif

@@ -91,7 +91,7 @@ ret="$(cat */*.c 2>/dev/null | grep -E '$&& | $||')"
 if [[ $ret -ne 0 ]]
 then
 	echo -e $ORANGE"Operator: "$RED" $ret" $RED"Norm ERROR ❌ "$NC
-	cat */*.c | grep "$&&" && grep "$||"
+	grep ["+","-","&&", "||","*","/"]$
 else
 	echo -e $GREEN"\nOperator at the end of line: 0 [OK] ✅  "$NC
 fi

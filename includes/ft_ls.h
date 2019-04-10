@@ -6,7 +6,7 @@
 /*   By: flbeaumo <flbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 11:29:21 by flbeaumo          #+#    #+#             */
-/*   Updated: 2019/04/08 19:35:58 by flbeaumo         ###   ########.fr       */
+/*   Updated: 2019/04/10 20:05:23 by flbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,15 @@ int		opt_a(char *dirname, t_data *data);
 int		parse(char *dirname, int ac, t_data *data);
 t_dir		*sort_list(t_dir *lst, bool sort);
 t_dir 		*opt_t(t_dir *lst);
-t_dir 		*opt_tr(t_dir *lst);
+void 		opt_tr(t_dir **lst, t_data *data);
 void    	opt_l(t_dir *lst);
+void        	lst_insert(t_dir **lst, t_dir *node, t_data *data);
+void 		sort(t_dir **lst, t_data *data);
+
+
 
 // TEST //
-t_dir   	*opt_test(t_dir *lst);
+void   	opt_test(t_dir **lst, t_data *data);
 //////////
 
 #endif
